@@ -1,14 +1,43 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Marvel Cards
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+    <ion-grid>
+        <ion-col col-12 col-sm-12 col-md-6 col-lg-6 *ngFor="let comic of comics; let i = index">
+          <ion-card>
+            <img [src]="comic.thumbnail.path"/>
+            <ion-card-content>
+              <ion-card-title [innerHTML]="comic.title"></ion-card-title>
+              <p> <ion-icon name="calendar"></ion-icon> &nbsp; Fecha de Publicación:&nbsp;{{comic.dates[0].date | date:'dd/MM/yy'}}</p>
+              <p class="description" [innerHTML]="comic.description"></p>
+            </ion-card-content>
+            <ion-row>
+              <ion-col>
+                <button (click) = "like($event)" ion-button icon-start clear small>
+                  <ion-icon name="thumbs-up"></ion-icon>
+                  <div [attr.data-target]="i"> {{comic.votes.likes}}&nbsp;Likes</div>
+                </button>
+              </ion-col>
+              <ion-col>
+                <button (click) = "dislike($event)" ion-button icon-start clear small>
+                  <ion-icon name="thumbs-down"></ion-icon>
+                  <div [attr.data-target]="i" >{{comic.votes.dislikes}}&nbsp;Dislike</div>
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+        <ion-col col-12 *ngIf="comics && !comics.length ">
+            <ion-card>
+              <ion-card-content>
+                No hay información disponible. Por favor inténtalo más tarde.
+              </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-grid>
 </ion-content>
